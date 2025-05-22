@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path,include
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/book/',include('books.urls')),
+    path('test/',views.get_save_book_data)
 ]
