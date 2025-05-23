@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
+import warnings
+warnings.filterwarnings('ignore', category=UserWarning, module='dj_rest_auth.registration.serializers')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_spectacular',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    'rest_framework_simplejwt.token_blacklist', 
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,12 +65,42 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
+
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 REST_FRAMEWORK = {
     # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    )
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_HTTPONLY' : True,
+    'JWT_AUTH_COOKIE': 'dongwha-auth',
+    'JWT_AUTH_REFRESH_COOKIE': 'auth-refresh',
+    'JWT_AUTH_COOKIE_USE_CSRF' : True,
+    'SESSION_LOGIN' : False,
+    'JWT_AUTH_SAMESITE' : 'Lax',
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'REGISTER_SERIALIZER' : 'accounts.serializers.SignUpSerializer',
+}
+
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
+
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
