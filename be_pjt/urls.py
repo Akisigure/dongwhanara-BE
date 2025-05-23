@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.urls import path,include
+from accounts.views import cookie_login_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/book/',include('books.urls')),
     path('accounts/',include('dj_rest_auth.urls')),
-    path('accounts/registration/',include('dj_rest_auth.registration.urls'))
+    path('accounts/registration/',include('dj_rest_auth.registration.urls')),
+    path('accounts/login/',cookie_login_view, name='cookie_login')
 ]
