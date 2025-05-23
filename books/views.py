@@ -28,12 +28,23 @@ def get_save_book_data(request) :
 
 # book_list
 @extend_schema(
-        methods=['GET'],
-        summary='DB에 저장된 책을 반환하는 API',
-        description='parameter = 현재 페이지',
-        parameters=[
-        OpenApiParameter(name='page', type=int, location=OpenApiParameter.QUERY, description='현재 페이지'),
-        ]
+    methods=['GET'],
+    summary='DB에 저장된 책을 반환하는 API',
+    description="""
+### 반환 data의 길이는 50
+- current_page : 현재 페이지  
+- next_page : 다음 페이지  
+- previous_page : 이전 페이지  
+- count : data의 총 길이
+""",
+    parameters=[
+        OpenApiParameter(
+            name='page',
+            type=int,
+            location=OpenApiParameter.QUERY,
+            description='현재 페이지'
+        ),
+    ]
 )
 @api_view(['GET'])
 def book_list(request):
