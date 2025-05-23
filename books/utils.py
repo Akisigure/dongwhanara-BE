@@ -9,7 +9,6 @@ def get_data() :
     headers = {'Content-Type' : 'application/json', 'Accept' : 'application/json'}
     res = requests.get(URL,headers=headers)
 
-    #data
     data = res.json()['response']['body']['items']['item']
 
     return data
