@@ -30,9 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
 INSTALLED_APPS = [
     'accounts',
     'books',
@@ -86,12 +83,13 @@ REST_AUTH = {
     'JWT_AUTH_REFRESH_COOKIE': 'auth-refresh',
     'JWT_AUTH_COOKIE_USE_CSRF' : True,
     'SESSION_LOGIN' : False,
-    'JWT_AUTH_SAMESITE' : 'Lax',
+    'JWT_AUTH_SAMESITE' : 'strict',
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-    'AUTH_HEADER_TYPES': ('Bearer',),
     'REGISTER_SERIALIZER' : 'accounts.serializers.SignUpSerializer',
 }
+
+CORS_ALLOW_CREDENTIALS = True 
 
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
@@ -99,8 +97,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
-
-
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
