@@ -8,6 +8,7 @@ import os
 import requests
 from .models import Book
 from .utils import get_data
+from .paginations import StandardResultSetPagination
 
 @api_view(['GET'])
 def get_save_book_data(request) :
@@ -24,3 +25,11 @@ def get_save_book_data(request) :
         book.save()
 
     return Response({'message': 'Books saved successfully!'},status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def book_list(request):
+    book = Book.objects.all()
+    paginator = StandardResultSetPagination()
+    result_page = paginator.paginate_queryset(book,request)
+    serializer = BookListSerializer(result_page,many=True)
+    return paginator.get_paginated_response(serializer.data)
