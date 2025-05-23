@@ -6,7 +6,10 @@ from rest_framework import status
 from .models import Book
 from .utils import get_data
 from .paginations import StandardResultSetPagination
+from drf_spectacular.utils import extend_schema,OpenApiParameter
 
+
+#Admin만 접근 가능하게 수정해야 함
 @api_view(['GET'])
 def get_save_book_data(request) :
     data = get_data()
@@ -23,6 +26,15 @@ def get_save_book_data(request) :
 
     return Response({'message': 'Books saved successfully!'},status=status.HTTP_201_CREATED)
 
+# book_list
+@extend_schema(
+        methods=['GET'],
+        summary='DB에 저장된 책을 반환하는 API',
+        description='parameter = 현재 페이지',
+        parameters=[
+        OpenApiParameter(name='page', type=int, location=OpenApiParameter.QUERY, description='현재 페이지'),
+        ]
+)
 @api_view(['GET'])
 def book_list(request):
     book = Book.objects.all()
