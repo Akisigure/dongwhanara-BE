@@ -56,6 +56,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 50,
 }
 
+SPECTACULAR_SETTINGS = {
+    'COMPONENT_SPLIT_REQUEST': True,
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 REST_AUTH = {
