@@ -1,4 +1,4 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from .serializers import BookListSerializer
 from .models import Book
@@ -7,10 +7,12 @@ from .models import Book
 from .utils import get_data
 from .paginations import StandardResultSetPagination
 from drf_spectacular.utils import extend_schema,OpenApiParameter
+from rest_framework.permissions import IsAdminUser
 
 
 #Admin만 접근 가능하게 수정해야 함
-@api_view(['GET'])
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
 def get_save_book_data(request) :
     data = get_data()
     print(data)
@@ -24,7 +26,7 @@ def get_save_book_data(request) :
         book.view_count = data[i].get('view_count')
         book.save()
 
-    return Response({'message': 'Books saved successfully!'},status=status.HTTP_201_CREATED)
+    return Response({'message': 'data 저장 성공'},status=status.HTTP_201_CREATED)
 
 # book_list
 @extend_schema(
