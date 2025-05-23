@@ -1,8 +1,5 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from dj_rest_auth.serializers import LoginSerializer
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 
 class SignUpSerializer(RegisterSerializer):
     first_name = serializers.CharField()

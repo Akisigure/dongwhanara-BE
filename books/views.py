@@ -3,9 +3,6 @@ from rest_framework.response import Response
 from .serializers import BookListSerializer
 from .models import Book
 from rest_framework import status
-from dotenv import load_dotenv
-import os
-import requests
 from .models import Book
 from .utils import get_data
 from .paginations import StandardResultSetPagination
