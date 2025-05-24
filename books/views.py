@@ -10,6 +10,7 @@ from drf_spectacular.utils import extend_schema,OpenApiParameter
 from rest_framework.permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 
+
 # 1회만 호출 Admin만 가능
 @extend_schema(exclude=True)
 @api_view(['POST'])
@@ -62,11 +63,11 @@ def book_list(request):
 @extend_schema(
     summary='책을 pk로 상세조회',
     description='id : book의 primary key',
-    responses=BookDetailSerializer,
+    responses=BookDetailSerializer, 
 )
 @api_view(['GET'])
-def book_detail(request,pk):
+def book_detail(request,book_pk):
     if request.method == 'GET':
-        book = get_object_or_404(Book, pk=pk)
+        book = get_object_or_404(Book, pk=book_pk)
         serializer = BookDetailSerializer(book)
         return Response(serializer.data,status=status.HTTP_200_OK)

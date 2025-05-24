@@ -14,6 +14,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'books',
+    'book_reports',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,7 +67,7 @@ REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_HTTPONLY' : True,
     'JWT_AUTH_COOKIE': 'dongwha-auth',
-    'JWT_AUTH_REFRESH_COOKIE': 'auth-refresh',
+    'JWT_AUTH_REFRESH_COOKIE': 'dongwha-auth-refresh',
     'JWT_AUTH_COOKIE_USE_CSRF' : True,
     'SESSION_LOGIN' : False,
     'JWT_AUTH_SAMESITE' : 'strict',
