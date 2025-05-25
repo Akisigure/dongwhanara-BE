@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'accounts',
     'books',
     'book_reports',
+    'book_report_comments',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # 최상단으로
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,11 +44,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
-
     "allauth.account.middleware.AccountMiddleware",
 ]
+
+# MIDDLEWARE = [
+#     'django.middleware.security.SecurityMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'corsheaders.middleware.CorsMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#     "allauth.account.middleware.AccountMiddleware",
+# ]
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
@@ -69,25 +79,43 @@ REST_AUTH = {
     'JWT_AUTH_COOKIE': 'dongwha-auth',
     'JWT_AUTH_REFRESH_COOKIE': 'dongwha-auth-refresh',
     'JWT_AUTH_COOKIE_USE_CSRF' : True,
+    'JWT_AUTH_SECURE': False,
+    'JWT_AUTH_SAMESITE': 'Lax',
     'SESSION_LOGIN' : False,
-    'JWT_AUTH_SAMESITE' : 'strict',
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'REGISTER_SERIALIZER' : 'accounts.serializers.SignUpSerializer',
 }
 
-CORS_ALLOW_CREDENTIALS = True 
+# REST_AUTH = {
+#     'USE_JWT': True,
+#     'JWT_AUTH_COOKIE':'accessToken',
+#     # 'JWT_AUTH_REFRESH_COOKIE':'refreshToken',
+#     'JWT_AUTH_HTTPONLY': False, # js 엑세스 불가
+#     'JWT_AUTH_SECURE': False,   #https 만 false / 배포시에 True
+#     # 'JWT_AUTH_SAMESITE': 'Strict',
+#     # 'JWT_AUTH_SAMESITE': 'None',
+# }
+
 
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
 CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5173",
     "http://localhost:5173",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+CORS_ALLOW_CREDENTIALS = True 
 
 ROOT_URLCONF = 'be_pjt.urls'
 

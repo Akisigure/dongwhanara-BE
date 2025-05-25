@@ -9,7 +9,8 @@ from .paginations import StandardResultSetPagination
 from drf_spectacular.utils import extend_schema,OpenApiParameter
 from rest_framework.permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
-
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
 
 # 1회만 호출 Admin만 가능
 @extend_schema(exclude=True)
@@ -71,3 +72,7 @@ def book_detail(request,book_pk):
         book = get_object_or_404(Book, pk=book_pk)
         serializer = BookDetailSerializer(book)
         return Response(serializer.data,status=status.HTTP_200_OK)
+
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    return JsonResponse({'message': 'CSRF cookie set'})
