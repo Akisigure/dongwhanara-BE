@@ -76,3 +76,14 @@ def book_detail(request,book_pk):
 @ensure_csrf_cookie
 def get_csrf_token(request):
     return JsonResponse({'message': 'CSRF cookie set'})
+
+@api_view(['POST'])
+def recommend_book(request,book_pk):
+    book = get_object_or_404(Book,pk = book_pk)
+    if request.method == 'POST':
+        if request.user in book.recommend_users.all():
+            book.recommend_users.remove(request.user)
+            return Response({'message':'도서 추천취소'},status=status.HTTP_200_OK)
+        else:
+            book.recommend_users.add(request.user)
+            return Response({'message':'도서 추천성공'},status=status.HTTP_200_OK)

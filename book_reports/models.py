@@ -12,8 +12,8 @@ class BookReport(models.Model):
     report_updated_at = models.DateTimeField(auto_now=True)
     image = models.URLField(blank=True)
     
-    recommend_users = models.ManyToManyField(
+    like_report_users = models.ManyToManyField(
         get_user_model(),
-        related_name='recommend_reports',
+        related_name='like_reports',
         blank=True,
     )

@@ -54,13 +54,13 @@ def report_detail(request,report_pk,book_pk):
             return Response({'message':'권한이 없습니다.'},status=status.HTTP_403_FORBIDDEN)
 
 @api_view(['POST'])
-def recommend_book_report(request,book_report_pk):
+def like_book_report(request,book_report_pk):
     report = get_object_or_404(BookReport,pk = book_report_pk)
     if request.method == 'POST':
-        if request.user in report.recommend_users.all():
-            report.recommend_users.remove(request.user)
-            return Response({'message':'추천취소'},status=status.HTTP_200_OK)
+        if request.user in report.like_report_users.all():
+            report.like_report_users.remove(request.user)
+            return Response({'message':'독후감 좋아요 취소'},status=status.HTTP_200_OK)
         else:
-            report.recommend_users.add(request.user)
-            return Response({'message':'추천성공'},status=status.HTTP_200_OK)
+            report.like_report_users.add(request.user)
+            return Response({'message':'독후감 좋아요 취소'},status=status.HTTP_200_OK)
         
