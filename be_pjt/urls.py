@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path,include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from books.views import get_csrf_token
+from accounts.views import MyPageView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,4 +16,5 @@ urlpatterns = [
     path('api/v1/book-reports/', include('book_reports.urls')),  # 독후감 관련
     path('api/v1/comments/', include('book_report_comments.urls')),  # 댓글 관련
     path('api/v1/csrf/', get_csrf_token),
+    path('accounts/my-page/',MyPageView.as_view(),name='my-page')
 ]

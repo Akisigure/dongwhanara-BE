@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
+from django.contrib.auth import get_user_model
 
 class SignUpSerializer(RegisterSerializer):
     first_name = serializers.CharField()
@@ -27,3 +29,10 @@ class SignUpSerializer(RegisterSerializer):
         user.content = self.validated_data.get('content')
         user.save()
         return user
+    
+class MyPageSerializer(UserDetailsSerializer):
+    class Meta(UserDetailsSerializer.Meta):
+        model = get_user_model()
+        fields = UserDetailsSerializer.Meta.fields + (
+            'uuid','gender','mbti','content',
+        )
