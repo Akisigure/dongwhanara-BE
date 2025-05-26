@@ -16,3 +16,35 @@ class StandardResultSetPagination(PageNumberPagination):
             'previous_page' : previous_page,
             'result' : data 
         })
+    
+class BookReportResultPagination(PageNumberPagination):
+    page_size = 40 # 상의 후 pagination size 조정
+
+    def get_paginated_response(self, data):
+        current_page = self.page.number
+        next_page = self.page.next_page_number() if self.page.has_next() else None
+        previous_page = self.page.previous_page_number() if self.page.has_previous() else None
+
+        return Response({
+            'count' : self.page.paginator.count,
+            'current_page' : current_page,
+            'next_page' : next_page,
+            'previous_page' : previous_page,
+            'result' : data
+        })
+    
+class CommentResultPagination(PageNumberPagination):
+    page_size = 20
+
+    def get_paginated_response(self, data):
+        current_page = self.page.number
+        next_page = self.page.next_page_number() if self.page.has_next() else None
+        previous_page = self.page.previous_page_number() if self.page.has_previous() else None
+
+        return Response({
+            'count' : self.page.paginator.count,
+            'current_page' : current_page,
+            'next_page' : next_page,
+            'previous_page' : previous_page,
+            'result' : data
+        })

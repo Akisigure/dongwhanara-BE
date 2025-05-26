@@ -13,9 +13,7 @@ urlpatterns = [
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'),name='redoc'),
 
-    path('api/v1/books/', include('books.urls')),                # 책 관련
-    path('api/v1/book-reports/', include('book_reports.urls')),  # 독후감 관련
-    path('api/v1/comments/', include('book_report_comments.urls')),  # 댓글 관련
+    path('api/v1/books/', include('books.urls')),
     path('api/v1/csrf/', get_csrf_token),
     path('accounts/my-page/',MyPageView.as_view(),name='my-page'),
     path('api/v1/test/',get_save_book_data)
