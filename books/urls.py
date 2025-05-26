@@ -12,5 +12,5 @@ urlpatterns = [
     path('<int:book_pk>/book-reports/<int:book_report_pk>/comments/<int:comments_pk>/', views.comment_detail),  # /api/v1/comments/7/
     path('mbti/recommend/',views.create_mbti_recommend),
     path('mbti/',views.recommend_list),
-    path('search/',views.search_book)
+    path('search/',views.search_book),
 ]
