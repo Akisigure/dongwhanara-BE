@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
-from .serializers import BookListSerializer,BookDetailSerializer,BookReportsSerializer,BookReportCommentSerializer
+from .serializers import BookListSerializer,BookDetailSerializer,BookReportsSerializer,BookReportCommentSerializer,CreateBookReportSerializer,CreateReportCommentSerializer
 from rest_framework import status
 from .models import Book,BookReport,BookReportComment
 from .utils import get_data
@@ -155,7 +155,7 @@ def book_reports(request,book_pk):
         return paginator.get_paginated_response(serializer.data)
     
     if request.method == 'POST':
-        serializer = BookReportsSerializer(data = request.data)
+        serializer = CreateBookReportSerializer(data = request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(book=book,user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -274,7 +274,7 @@ def book_report_comments(request,book_report_pk,book_pk):
         serializer = BookReportCommentSerializer(result_page,many=True)
         return paginator.get_paginated_response(serializer.data)
     elif request.method == 'POST':
-        serializer = BookReportCommentSerializer(data = request.data)
+        serializer = CreateReportCommentSerializer(data = request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(book_report=book_report,user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
