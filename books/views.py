@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .serializers import BookListSerializer,BookDetailSerializer,BookReportsSerializer,BookReportCommentSerializer,CreateBookReportSerializer,CreateReportCommentSerializer
 from rest_framework import status
 from .models import Book,BookReport,BookReportComment
-from .utils import get_data
+from .utils.utils import get_data
 from .paginations import StandardResultSetPagination,BookReportResultPagination,CommentResultPagination
 from drf_spectacular.utils import extend_schema,OpenApiParameter,OpenApiResponse
 from rest_framework.permissions import IsAdminUser
