@@ -13,4 +13,26 @@ class Book(models.Model):
         related_name='recommend_reports',
         blank=True,
     )
+
+class BookReport(models.Model):
+    book = models.ForeignKey(Book,on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
+    report_title = models.CharField(max_length=50)
+    report_content = models.TextField()
+    report_created_at = models.DateTimeField(auto_now_add=True)
+    report_updated_at = models.DateTimeField(auto_now=True)
+    image = models.URLField(blank=True)
+    
+    like_report_users = models.ManyToManyField(
+        get_user_model(),
+        related_name='like_reports',
+        blank=True,
+    )
+
+class BookReportComment(models.Model):
+    user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
+    book_report = models.ForeignKey(BookReport,on_delete=models.CASCADE)
+    content = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
