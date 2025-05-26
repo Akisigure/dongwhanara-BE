@@ -17,6 +17,7 @@ inflection==0.5.1
 jsonschema==4.23.0
 jsonschema-specifications==2025.4.1
 oauthlib==3.2.2
+pillow==11.2.1
 pycparser==2.22
 PyJWT==2.9.0
 python-dotenv==1.1.0
@@ -30,3 +31,4 @@ typing_extensions==4.13.2
 tzdata==2025.2
 uritemplate==4.1.1
 urllib3==2.4.0
+xmltodict==0.14.2
