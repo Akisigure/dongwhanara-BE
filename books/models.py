@@ -15,7 +15,7 @@ class Book(models.Model):
     )
 
 class BookReport(models.Model):
-    book = models.ForeignKey(Book,on_delete=models.CASCADE)
+    book = models.ForeignKey(Book,related_name='book_reports',on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
     report_title = models.CharField(max_length=50)
     report_content = models.TextField()
@@ -31,7 +31,7 @@ class BookReport(models.Model):
 
 class BookReportComment(models.Model):
     user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
-    book_report = models.ForeignKey(BookReport,on_delete=models.CASCADE)
+    book_report = models.ForeignKey(BookReport,related_name='report_comments',on_delete=models.CASCADE)
     content = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -6,16 +6,29 @@ class BookListSerializer(serializers.ModelSerializer):
         model = Book
         fields = '__all__'
 
-class BookDetailSerializer(serializers.ModelSerializer):
+class BookReportCommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Book
+        model = BookReportComment
         fields = '__all__'
+        read_only_fields = ('book_report','user',)
 
 class BookReportsSerializer(serializers.ModelSerializer):
+    
+    report_comments = BookReportCommentSerializer(many=True,read_only=True)
     class Meta:
         model = BookReport
         fields = '__all__'
         read_only_fields = ('book','user',)
+
+class BookDetailSerializer(serializers.ModelSerializer):
+
+    book_reports = BookReportsSerializer(many=True,read_only=True)
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+
 
 # GET 요청 생길때까지만 유지
 class CsrfmiddlewaretokenSerializer(serializers.Serializer):
@@ -33,9 +46,5 @@ class CsrfmiddlewaretokenSerializer(serializers.Serializer):
 #     def get_recommend_count(self,obj):
 #         return obj.recommend_users.count()
 
-class BookReportCommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BookReportComment
-        fields = '__all__'
-        read_only_fields = ('book_report','user',)
+
 
