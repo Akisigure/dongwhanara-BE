@@ -1,11 +1,9 @@
 from dotenv import load_dotenv
 import os
 import requests
-import xmltodict  # pip install xmltodict
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-from books.models import Book
+import xmltodict
+from books.models import Book,MbtiRecommend
+from django.core.exceptions import ObjectDoesNotExist
 
 def get_data():
     load_dotenv()
@@ -31,6 +29,8 @@ def get_data():
 
 
 def get_document_simular():
+    from sentence_transformers import SentenceTransformer
+    from sklearn.metrics.pairwise import cosine_similarity
 # 모델 로딩
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -71,3 +71,26 @@ def get_document_simular():
         ]
 
     return mbti_recommendations
+
+
+def save_mbti_recommend():
+    recommend = get_document_simular()
+
+    #중복되지 않게 기존에 측정한 정확도는 삭제
+    MbtiRecommend.objects.all().delete()
+
+    for mbti, books in recommend.items():
+        for book_info in books:
+            title = book_info['title']
+            score = book_info['score']
+            try:
+                book = Book.objects.get(title=title)
+                mbti_recommend = MbtiRecommend()
+                mbti_recommend.mbti = mbti
+                mbti_recommend.book = book
+                mbti_recommend.score = score
+                mbti_recommend.save()
+            except Book.DoesNotExist:
+                continue
+
+

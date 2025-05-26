@@ -1,0 +1,722 @@
+[
+{
+    "model": "books.mbtirecommend",
+    "pk": 1,
+    "fields": {
+        "mbti": "INTJ",
+        "book": 256,
+        "score": 0.7379999756813049
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 2,
+    "fields": {
+        "mbti": "INTJ",
+        "book": 192,
+        "score": 0.7129999995231628
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 3,
+    "fields": {
+        "mbti": "INTJ",
+        "book": 301,
+        "score": 0.6859999895095825
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 4,
+    "fields": {
+        "mbti": "INTJ",
+        "book": 189,
+        "score": 0.6800000071525574
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 5,
+    "fields": {
+        "mbti": "INTJ",
+        "book": 254,
+        "score": 0.656000018119812
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 6,
+    "fields": {
+        "mbti": "INTP",
+        "book": 256,
+        "score": 0.7910000085830688
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 7,
+    "fields": {
+        "mbti": "INTP",
+        "book": 287,
+        "score": 0.6729999780654907
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 8,
+    "fields": {
+        "mbti": "INTP",
+        "book": 32,
+        "score": 0.6309999823570251
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 9,
+    "fields": {
+        "mbti": "INTP",
+        "book": 104,
+        "score": 0.6290000081062317
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 10,
+    "fields": {
+        "mbti": "INTP",
+        "book": 260,
+        "score": 0.628000020980835
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 11,
+    "fields": {
+        "mbti": "ENTJ",
+        "book": 256,
+        "score": 0.7160000205039978
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 12,
+    "fields": {
+        "mbti": "ENTJ",
+        "book": 192,
+        "score": 0.7020000219345093
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 13,
+    "fields": {
+        "mbti": "ENTJ",
+        "book": 287,
+        "score": 0.6830000281333923
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 14,
+    "fields": {
+        "mbti": "ENTJ",
+        "book": 260,
+        "score": 0.6639999747276306
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 15,
+    "fields": {
+        "mbti": "ENTJ",
+        "book": 310,
+        "score": 0.6489999890327454
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 16,
+    "fields": {
+        "mbti": "ENTP",
+        "book": 287,
+        "score": 0.6940000057220459
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 17,
+    "fields": {
+        "mbti": "ENTP",
+        "book": 260,
+        "score": 0.6679999828338623
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 18,
+    "fields": {
+        "mbti": "ENTP",
+        "book": 256,
+        "score": 0.6669999957084656
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 19,
+    "fields": {
+        "mbti": "ENTP",
+        "book": 32,
+        "score": 0.6470000147819519
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 20,
+    "fields": {
+        "mbti": "ENTP",
+        "book": 104,
+        "score": 0.6349999904632568
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 21,
+    "fields": {
+        "mbti": "INFJ",
+        "book": 260,
+        "score": 0.7139999866485596
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 22,
+    "fields": {
+        "mbti": "INFJ",
+        "book": 32,
+        "score": 0.6970000267028809
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 23,
+    "fields": {
+        "mbti": "INFJ",
+        "book": 287,
+        "score": 0.6880000233650208
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 24,
+    "fields": {
+        "mbti": "INFJ",
+        "book": 256,
+        "score": 0.6840000152587891
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 25,
+    "fields": {
+        "mbti": "INFJ",
+        "book": 201,
+        "score": 0.6779999732971191
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 26,
+    "fields": {
+        "mbti": "INFP",
+        "book": 260,
+        "score": 0.6919999718666077
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 27,
+    "fields": {
+        "mbti": "INFP",
+        "book": 287,
+        "score": 0.675000011920929
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 28,
+    "fields": {
+        "mbti": "INFP",
+        "book": 32,
+        "score": 0.6729999780654907
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 29,
+    "fields": {
+        "mbti": "INFP",
+        "book": 256,
+        "score": 0.6340000033378601
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 30,
+    "fields": {
+        "mbti": "INFP",
+        "book": 104,
+        "score": 0.6269999742507935
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 31,
+    "fields": {
+        "mbti": "ENFJ",
+        "book": 51,
+        "score": 0.6669999957084656
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 32,
+    "fields": {
+        "mbti": "ENFJ",
+        "book": 192,
+        "score": 0.6669999957084656
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 33,
+    "fields": {
+        "mbti": "ENFJ",
+        "book": 58,
+        "score": 0.6460000276565552
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 34,
+    "fields": {
+        "mbti": "ENFJ",
+        "book": 266,
+        "score": 0.6399999856948853
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 35,
+    "fields": {
+        "mbti": "ENFJ",
+        "book": 189,
+        "score": 0.6340000033378601
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 36,
+    "fields": {
+        "mbti": "ENFP",
+        "book": 287,
+        "score": 0.7120000123977661
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 37,
+    "fields": {
+        "mbti": "ENFP",
+        "book": 260,
+        "score": 0.6959999799728394
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 38,
+    "fields": {
+        "mbti": "ENFP",
+        "book": 32,
+        "score": 0.6869999766349792
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 39,
+    "fields": {
+        "mbti": "ENFP",
+        "book": 256,
+        "score": 0.6779999732971191
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 40,
+    "fields": {
+        "mbti": "ENFP",
+        "book": 104,
+        "score": 0.6629999876022339
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 41,
+    "fields": {
+        "mbti": "ISTJ",
+        "book": 192,
+        "score": 0.7789999842643738
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 42,
+    "fields": {
+        "mbti": "ISTJ",
+        "book": 310,
+        "score": 0.7609999775886536
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 43,
+    "fields": {
+        "mbti": "ISTJ",
+        "book": 248,
+        "score": 0.746999979019165
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 44,
+    "fields": {
+        "mbti": "ISTJ",
+        "book": 13,
+        "score": 0.7450000047683716
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 45,
+    "fields": {
+        "mbti": "ISTJ",
+        "book": 179,
+        "score": 0.7360000014305115
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 46,
+    "fields": {
+        "mbti": "ISFJ",
+        "book": 256,
+        "score": 0.7540000081062317
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 47,
+    "fields": {
+        "mbti": "ISFJ",
+        "book": 287,
+        "score": 0.7419999837875366
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 48,
+    "fields": {
+        "mbti": "ISFJ",
+        "book": 260,
+        "score": 0.6970000267028809
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 49,
+    "fields": {
+        "mbti": "ISFJ",
+        "book": 192,
+        "score": 0.6869999766349792
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 50,
+    "fields": {
+        "mbti": "ISFJ",
+        "book": 32,
+        "score": 0.6790000200271606
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 51,
+    "fields": {
+        "mbti": "ESTJ",
+        "book": 256,
+        "score": 0.7649999856948853
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 52,
+    "fields": {
+        "mbti": "ESTJ",
+        "book": 192,
+        "score": 0.753000020980835
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 53,
+    "fields": {
+        "mbti": "ESTJ",
+        "book": 310,
+        "score": 0.7329999804496765
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 54,
+    "fields": {
+        "mbti": "ESTJ",
+        "book": 32,
+        "score": 0.7250000238418579
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 55,
+    "fields": {
+        "mbti": "ESTJ",
+        "book": 254,
+        "score": 0.7239999771118164
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 56,
+    "fields": {
+        "mbti": "ESFJ",
+        "book": 260,
+        "score": 0.7630000114440918
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 57,
+    "fields": {
+        "mbti": "ESFJ",
+        "book": 32,
+        "score": 0.7350000143051147
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 58,
+    "fields": {
+        "mbti": "ESFJ",
+        "book": 256,
+        "score": 0.722000002861023
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 59,
+    "fields": {
+        "mbti": "ESFJ",
+        "book": 287,
+        "score": 0.7139999866485596
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 60,
+    "fields": {
+        "mbti": "ESFJ",
+        "book": 201,
+        "score": 0.7089999914169312
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 61,
+    "fields": {
+        "mbti": "ISTP",
+        "book": 260,
+        "score": 0.722000002861023
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 62,
+    "fields": {
+        "mbti": "ISTP",
+        "book": 256,
+        "score": 0.7089999914169312
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 63,
+    "fields": {
+        "mbti": "ISTP",
+        "book": 287,
+        "score": 0.7020000219345093
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 64,
+    "fields": {
+        "mbti": "ISTP",
+        "book": 32,
+        "score": 0.6850000023841858
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 65,
+    "fields": {
+        "mbti": "ISTP",
+        "book": 201,
+        "score": 0.6610000133514404
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 66,
+    "fields": {
+        "mbti": "ISFP",
+        "book": 287,
+        "score": 0.7039999961853027
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 67,
+    "fields": {
+        "mbti": "ISFP",
+        "book": 32,
+        "score": 0.6930000185966492
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 68,
+    "fields": {
+        "mbti": "ISFP",
+        "book": 256,
+        "score": 0.6909999847412109
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 69,
+    "fields": {
+        "mbti": "ISFP",
+        "book": 260,
+        "score": 0.6800000071525574
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 70,
+    "fields": {
+        "mbti": "ISFP",
+        "book": 192,
+        "score": 0.6589999794960022
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 71,
+    "fields": {
+        "mbti": "ESTP",
+        "book": 256,
+        "score": 0.7409999966621399
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 72,
+    "fields": {
+        "mbti": "ESTP",
+        "book": 287,
+        "score": 0.734000027179718
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 73,
+    "fields": {
+        "mbti": "ESTP",
+        "book": 260,
+        "score": 0.7129999995231628
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 74,
+    "fields": {
+        "mbti": "ESTP",
+        "book": 192,
+        "score": 0.7020000219345093
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 75,
+    "fields": {
+        "mbti": "ESTP",
+        "book": 32,
+        "score": 0.6949999928474426
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 76,
+    "fields": {
+        "mbti": "ESFP",
+        "book": 256,
+        "score": 0.8019999861717224
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 77,
+    "fields": {
+        "mbti": "ESFP",
+        "book": 287,
+        "score": 0.6650000214576721
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 78,
+    "fields": {
+        "mbti": "ESFP",
+        "book": 69,
+        "score": 0.6589999794960022
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 79,
+    "fields": {
+        "mbti": "ESFP",
+        "book": 192,
+        "score": 0.6449999809265137
+    }
+},
+{
+    "model": "books.mbtirecommend",
+    "pk": 80,
+    "fields": {
+        "mbti": "ESFP",
+        "book": 310,
+        "score": 0.6430000066757202
+    }
+}
+]

@@ -31,6 +31,7 @@ class SignUpSerializer(RegisterSerializer):
         return user
     
 class MyPageSerializer(UserDetailsSerializer):
+    username = serializers.CharField(read_only=True)
     class Meta(UserDetailsSerializer.Meta):
         model = get_user_model()
         fields = UserDetailsSerializer.Meta.fields + (
