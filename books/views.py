@@ -5,12 +5,15 @@ from rest_framework import status
 from .models import Book,BookReport,BookReportComment
 from .utils import get_data
 from .paginations import StandardResultSetPagination,BookReportResultPagination,CommentResultPagination
-from drf_spectacular.utils import extend_schema,OpenApiParameter
+from drf_spectacular.utils import extend_schema,OpenApiParameter,OpenApiResponse
 from rest_framework.permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
-from rest_framework.permissions import IsAdminUser,IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAdminUser,IsAuthenticatedOrReadOnly,IsAuthenticated
+from drf_spectacular.utils import inline_serializer
+from rest_framework import serializers
+from drf_spectacular.types import OpenApiTypes
 
 
 # 1회만 호출 Admin만 가능
@@ -35,8 +38,10 @@ def get_save_book_data(request) :
 # book_list
 @extend_schema(
     methods=['GET'],
+    request=None,
     responses=BookListSerializer(many=True),
     summary='DB에 저장된 책을 반환하는 API',
+    operation_id='book_list_get',
     description="""
 ### 반환 data의 길이는 50
 - current_page : 현재 페이지  
@@ -64,9 +69,12 @@ def book_list(request):
 
 
 @extend_schema(
+    methods=['GET'],
+    request=None,
+    responses=BookDetailSerializer,
     summary='책을 pk로 상세조회',
+    operation_id='book_detail_get',
     description='id : book의 primary key',
-    responses=BookDetailSerializer, 
 )
 @api_view(['GET'])
 def book_detail(request,book_pk):
@@ -81,7 +89,21 @@ def get_csrf_token(request):
     return JsonResponse({'message': 'CSRF cookie set'})
 
 
+@extend_schema(
+    methods=['POST'],
+    request=None,
+    responses=inline_serializer(
+        name="RecommendBookResponse",
+        fields={
+            "message": serializers.CharField(),
+        }
+    ),
+    summary='책 추천 / 추천 취소 API',
+    operation_id='recommend_book_post',
+    description="토글링 방식으로 호출할 것",
+)
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def recommend_book(request,book_pk):
     book = get_object_or_404(Book,pk = book_pk)
     if request.method == 'POST':
@@ -92,7 +114,34 @@ def recommend_book(request,book_pk):
             book.recommend_users.add(request.user)
             return Response({'message':'도서 추천성공'},status=status.HTTP_200_OK)
 
-
+@extend_schema(
+    methods=['GET', 'POST'],
+    request={
+        'POST': BookReportsSerializer,
+        'GET': None,
+    },
+    responses={
+        'GET': BookReportsSerializer(many=True),
+        'POST': BookReportsSerializer,
+    },
+    summary='독후감 리스트, 독후감 저장 API',
+    operation_id='book_reports_list_create',
+    description="""
+### 반환 data의 길이는 30
+- current_page : 현재 페이지  
+- next_page : 다음 페이지  
+- previous_page : 이전 페이지  
+- count : data의 총 길이
+""",
+    parameters=[
+        OpenApiParameter(
+            name='page',
+            type=int,
+            location=OpenApiParameter.QUERY,
+            description='현재 페이지'
+        ),
+    ]
+)
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def book_reports(request,book_pk):
@@ -112,6 +161,24 @@ def book_reports(request,book_pk):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@extend_schema(
+    methods=['GET', 'PUT', 'DELETE'],
+    request={
+        'PUT': BookReportsSerializer,
+        'GET': None,
+        'DELETE': None,
+    },
+    responses={
+        'GET': BookReportsSerializer,
+        'PUT': BookReportsSerializer,
+        'DELETE': inline_serializer(
+            name='ReportDeleteResponse',
+            fields={'message': serializers.CharField()}
+        )
+    },
+    summary='독후감 상세 조회, 수정, 삭제 API',
+    operation_id='report_detail_get_put_delete',
+)
 @api_view(['GET','PUT','DELETE'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def report_detail(request,report_pk,book_pk):
@@ -137,7 +204,22 @@ def report_detail(request,report_pk,book_pk):
         else:
             return Response({'message':'권한이 없습니다.'},status=status.HTTP_403_FORBIDDEN)
 
+
+@extend_schema(
+    methods=['POST'],
+    request=None,
+    responses=inline_serializer(
+        name='BookReportLikeResponse',
+        fields={
+            'message': serializers.CharField()
+        }
+    ),
+    summary='독후감 추천 / 추천 취소 API',
+    operation_id='like_book_report_post',
+    description="토글 방식으로 좋아요/취소.",
+)
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def like_book_report(request,book_report_pk,book_pk):
     report = get_object_or_404(BookReport,pk = book_report_pk,book_id=book_pk)
     if request.method == 'POST':
@@ -148,7 +230,41 @@ def like_book_report(request,book_report_pk,book_pk):
             report.like_report_users.add(request.user)
             return Response({'message':'독후감 좋아요 취소'},status=status.HTTP_200_OK)
 
+
+@extend_schema(
+    methods=['GET', 'POST'],
+    request={
+        'POST': BookReportCommentSerializer,
+        'GET': None,
+    },
+    responses={
+        'GET': OpenApiResponse(
+            response=BookReportCommentSerializer(many=True),
+            description='댓글 목록 (페이지네이션 포함)'
+        ),
+        'POST': BookReportCommentSerializer,
+    },
+    summary='독후감 댓글 목록 조회 및 작성 API',
+    description="""
+### 페이지네이션 반환 구조
+- current_page : 현재 페이지  
+- next_page : 다음 페이지  
+- previous_page : 이전 페이지  
+- count : 전체 댓글 수  
+- results : 댓글 리스트 (최대 50개)
+""",
+    parameters=[
+        OpenApiParameter(
+            name='page',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            description='현재 페이지'
+        )
+    ],
+    operation_id='book_report_comments_get_post',
+)
 @api_view(['GET','POST'])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def book_report_comments(request,book_report_pk,book_pk):
     book_report = get_object_or_404(BookReport,pk=book_report_pk,book_id=book_pk)
     if request.method == 'GET':
@@ -163,8 +279,26 @@ def book_report_comments(request,book_report_pk,book_pk):
             serializer.save(book_report=book_report,user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
-
+@extend_schema(
+    methods=['GET', 'PUT', 'DELETE'],
+    request={
+        'PUT': BookReportCommentSerializer,
+        'GET': None,
+        'DELETE': None,
+    },
+    responses={
+        'GET': BookReportCommentSerializer,
+        'PUT': BookReportCommentSerializer,
+        'DELETE': inline_serializer(
+            name='CommentDeleteSuccess',
+            fields={'message': serializers.CharField()}
+        ),
+    },
+    summary='독후감 댓글 상세 조회, 수정, 삭제 API',
+    operation_id='comment_detail_get_put_delete',
+)
 @api_view(['GET','PUT','DELETE'])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def comment_detail(request,comment_pk,book_report_pk,book_pk):
 
     comment = get_object_or_404(BookReportComment,pk=comment_pk,book_report_id=book_report_pk,book_id=book_pk)
