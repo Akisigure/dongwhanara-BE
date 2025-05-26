@@ -1,9 +1,15 @@
 from openai import OpenAI
-client = OpenAI()
+import os
+from dotenv import load_dotenv
 
-response = client.responses.create(
-    model="gpt-4o-mini",
-    input="Write a one-sentence bedtime story about a unicorn."
-)
+load_dotenv()
+api_key = os.getenv("OPEN_AI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPEN_AI_API_KEY"))
 
-print(response.output_text)
+# def test_client():
+#     response = client.responses.create(
+#         model="gpt-4o-mini",
+#         input="Write a one-sentence bedtime story about a unicorn."
+#     )
+
+#     print(response.output_text)

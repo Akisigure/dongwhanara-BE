@@ -3,6 +3,6 @@ from rest_framework.decorators import api_view
 from .utils import prompt
 
 # Create your views here.
-@api_view(['GET'])
-def test(request):
-    pass
+# @api_view(['GET'])
+# def test(request):
+#     prompt.test_client()

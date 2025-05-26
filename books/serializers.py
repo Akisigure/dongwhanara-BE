@@ -37,6 +37,18 @@ class BookReportsSerializer(serializers.ModelSerializer):
         model = BookReport
         fields = '__all__'
 
+class CreateBookReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookReport
+        fields = '__all__'
+        read_only_fields = ('book','user',)
+
+class CreateReportCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookReportComment
+        fields = '__all__'
+        read_only_fields = ('book_report','user',)
+
 
 class BookDetailSerializer(serializers.ModelSerializer):
     class CustomBookReportSerializer(serializers.ModelSerializer):
