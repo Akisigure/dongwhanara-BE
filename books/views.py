@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .serializers import BookListSerializer,BookDetailSerializer,BookReportsSerializer,BookReportCommentSerializer,CreateBookReportSerializer,CreateReportCommentSerializer
 from rest_framework import status
 from .models import Book,BookReport,BookReportComment
-from .utils.utils import get_data
+from .utils.utils import get_data,get_document_simular
 from .paginations import StandardResultSetPagination,BookReportResultPagination,CommentResultPagination
 from drf_spectacular.utils import extend_schema,OpenApiParameter,OpenApiResponse
 from rest_framework.permissions import IsAdminUser
@@ -320,3 +320,10 @@ def comment_detail(request,comment_pk,book_report_pk,book_pk):
             comment.delete()
             return Response({'message':'삭제성공'},status=status.HTTP_204_NO_CONTENT)
         return Response({'message': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+    
+@api_view(['POST'])
+def simular_test(request):
+    if request.method == 'POST':
+        res = get_document_simular()
+        print(res)
+        return Response({'message':res})
