@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:book_pk>/book-reports/<int:book_report_pk>/like/',views.like_book_report),
     path('<int:book_pk>/book-reports/<int:book_report_pk>/comments/', views.book_report_comments),  # /api/v1/comments/7/
     path('<int:book_pk>/book-reports/<int:book_report_pk>/comments/<int:comments_pk>/', views.comment_detail),  # /api/v1/comments/7/
+    path('simular/',views.simular_test)
 ]
