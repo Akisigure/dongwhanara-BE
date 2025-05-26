@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAdminUser,IsAuthenticatedOrReadOnly,IsA
 from drf_spectacular.utils import inline_serializer
 from rest_framework import serializers
 from drf_spectacular.types import OpenApiTypes
-
+from django.db.models import Q
 
 # 1회만 호출 Admin만 가능
 @extend_schema(exclude=True)
@@ -342,3 +342,13 @@ def recommend_list(request):
 
     serializer = BookListSerializer(books, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def search_book(request):
+    if request.method == 'GET':
+        keyword = request.query_params.get('search','')
+        books = Book.objects.filter(
+            Q(title__contains=keyword) | Q(title__contains=keyword)
+        )
+        serializer = BookListSerializer(books,many=True)
+        return Response(serializer.data)

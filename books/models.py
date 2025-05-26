@@ -21,7 +21,6 @@ class BookReport(models.Model):
     report_content = models.TextField()
     report_created_at = models.DateTimeField(auto_now_add=True)
     report_updated_at = models.DateTimeField(auto_now=True)
-    image = models.URLField(blank=True)
     
     like_report_users = models.ManyToManyField(
         get_user_model(),
