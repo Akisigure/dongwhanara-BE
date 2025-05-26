@@ -38,10 +38,16 @@ class BookReportsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CreateBookReportSerializer(serializers.ModelSerializer):
+    class CustomUserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = get_user_model()
+            fields = ('last_name', 'first_name', 'username')
+    user = CustomUserSerializer(read_only=True)
+    report_comments = BookReportCommentSerializer(many=True,read_only=True)
     class Meta:
         model = BookReport
         fields = '__all__'
-        read_only_fields = ('book','user',)
+        read_only_fields = ('book',)
 
 class CreateReportCommentSerializer(serializers.ModelSerializer):
     class Meta:
