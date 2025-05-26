@@ -21,9 +21,11 @@ class BookReportsSerializer(serializers.ModelSerializer):
         read_only_fields = ('book','user',)
 
 class BookDetailSerializer(serializers.ModelSerializer):
-
-    book_reports = BookReportsSerializer(many=True,read_only=True)
-
+    class CustomBookReportSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = BookReport
+            fields = '__all__'
+    book_reports = CustomBookReportSerializer(many=True,read_only=True)
     class Meta:
         model = Book
         fields = '__all__'
