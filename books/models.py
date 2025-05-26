@@ -35,4 +35,11 @@ class BookReportComment(models.Model):
     content = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
+class MbtiRecommend(models.Model):
+    mbti = models.CharField(max_length=4)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    score = models.FloatField()
+
+    class Meta:
+        unique_together = ('mbti', 'book')

@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from .serializers import BookListSerializer,BookDetailSerializer,BookReportsSerializer,BookReportCommentSerializer,CreateBookReportSerializer,CreateReportCommentSerializer
 from rest_framework import status
-from .models import Book,BookReport,BookReportComment
-from .utils.utils import get_data,get_document_simular
+from .models import Book,BookReport,BookReportComment,MbtiRecommend
+from .utils.utils import get_data,save_mbti_recommend
 from .paginations import StandardResultSetPagination,BookReportResultPagination,CommentResultPagination
 from drf_spectacular.utils import extend_schema,OpenApiParameter,OpenApiResponse
 from rest_framework.permissions import IsAdminUser
@@ -322,8 +322,23 @@ def comment_detail(request,comment_pk,book_report_pk,book_pk):
         return Response({'message': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
     
 @api_view(['POST'])
-def simular_test(request):
+@permission_classes([IsAdminUser])
+def create_mbti_recommend(request):
     if request.method == 'POST':
-        res = get_document_simular()
-        print(res)
-        return Response({'message':res})
+        save_mbti_recommend()
+        return Response({'message':'MBTI 추천 데이터 저장 성공'})
+            
+                    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def recommend_list(request):
+    user = request.user
+    mbti = user.mbti
+
+    recommends = MbtiRecommend.objects.filter(mbti=mbti).select_related('book').order_by('-score')
+    books = []
+    for i in recommends:
+        books.append(i.book)
+
+    serializer = BookListSerializer(books, many=True)
+    return Response(serializer.data)
