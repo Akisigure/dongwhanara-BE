@@ -181,8 +181,8 @@ def book_reports(request,book_pk):
 )
 @api_view(['GET','PUT','DELETE'])
 @permission_classes([IsAuthenticatedOrReadOnly])
-def report_detail(request,report_pk,book_pk):
-    report = get_object_or_404(BookReport,pk = report_pk,book_id = book_pk)
+def report_detail(request,book_report_pk,book_pk):
+    report = get_object_or_404(BookReport,pk = book_report_pk,book_id = book_pk)
    
     if request.method == 'GET':
         serializer = BookReportsSerializer(report)

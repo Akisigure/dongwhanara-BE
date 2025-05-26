@@ -9,14 +9,13 @@ def get_data():
 
     URL = f'http://api.kcisa.kr/openapi/API_LIB_048/request?serviceKey={key}&numOfRows=10000&pageNo=1'
     headers = {
-        'Content-Type': 'application/xml',  # or omit headers to let server decide
+        'Content-Type': 'application/xml',  
         'Accept': 'application/xml'
     }
 
     res = requests.get(URL, headers=headers)
 
-    # XML 파싱
-    xml_data = res.content  # .text 도 가능하지만 인코딩 문제 있을 수 있음
+    xml_data = res.content
     parsed_data = xmltodict.parse(xml_data)
 
     try:
