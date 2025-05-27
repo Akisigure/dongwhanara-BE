@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Book,BookReport,BookReportComment
 from django.contrib.auth import get_user_model
+from chats.models import ChatSession
 
 class BookListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -72,23 +73,21 @@ class BookDetailSerializer(serializers.ModelSerializer):
         model = Book
         fields = '__all__'
 
-
-
-# GET 요청 생길때까지만 유지
 class CsrfmiddlewaretokenSerializer(serializers.Serializer):
     csrfmiddlewaretoken = serializers.CharField(max_length=64)
 
-# class ReportRecommendSerializer(serializers.ModelSerializer):
-#     recommend_users = serializers.PrimaryKeyRelatedField(
-#         many=True,read_only=True
-#     )
-#     recommend_count = serializers.SerializerMethodField()
-#     class Meta:
-#         model = BookReport
-#         fields = '__all__'
-    
-#     def get_recommend_count(self,obj):
-#         return obj.recommend_users.count()
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = '__all__'
 
+class ChatSessionBookSerializer(serializers.ModelSerializer):
+    book = BookSerializer()
+    has_message = serializers.SerializerMethodField()
 
+    class Meta:
+        model = ChatSession
+        fields = ['book', 'has_message']
 
+    def get_has_message(self, obj):
+        return obj.messages.exists()
