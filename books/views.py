@@ -357,7 +357,7 @@ def recommend_list(request):
 
         #현재 채팅중인 세션 목록 반환.
 
-        sessions = ChatSession.objects.filter(user=user).select_related('book')[:5]
+        sessions = ChatSession.objects.filter(user=user).select_related('book')[:4]
         response_data['chat_sessions'] = ChatSessionBookSerializer(sessions,many=True).data
 
         # 유사도 알고리즘으로 저장한 값에서 MBTI에 일치하는 값 내림차순
