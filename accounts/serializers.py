@@ -40,7 +40,7 @@ class MyPageSerializer(UserDetailsSerializer):
         model = get_user_model()
         fields = UserDetailsSerializer.Meta.fields + (
             'uuid','gender','mbti','content',
-            'recommend_books', 'written_reports', 'chat_sessions'
+            'recommend_books', 'written_reports',
         )
 
     
