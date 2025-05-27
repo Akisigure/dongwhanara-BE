@@ -19,5 +19,6 @@ urlpatterns = [
     path('api/v1/csrf/', get_csrf_token),
     path('accounts/my-page/',MyPageView.as_view(),name='my-page'),
     path('api/v1/create-data/',get_save_book_data),
-    path('api/v1/chats/',include('chats.urls'))
+    path('api/v1/chats/',include('chats.urls')),
+    path('accounts/auth/', include('allauth.socialaccount.urls')), 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
