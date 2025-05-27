@@ -2,6 +2,8 @@ from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model
+from books.serializers import BookSerializer,BookReportsSerializer
+from chats.serializers import SessionSerializer
 
 class SignUpSerializer(RegisterSerializer):
     first_name = serializers.CharField()
@@ -32,8 +34,13 @@ class SignUpSerializer(RegisterSerializer):
     
 class MyPageSerializer(UserDetailsSerializer):
     username = serializers.CharField(read_only=True)
+    recommend_books = BookSerializer(many=True,read_only=True)
+    written_reports = BookReportsSerializer(many=True,read_only=True,source='bookreport_set')
     class Meta(UserDetailsSerializer.Meta):
         model = get_user_model()
         fields = UserDetailsSerializer.Meta.fields + (
             'uuid','gender','mbti','content',
+            'recommend_books', 'written_reports', 'chat_sessions'
         )
+
+    
