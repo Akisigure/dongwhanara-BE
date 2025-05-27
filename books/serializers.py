@@ -81,7 +81,7 @@ class ChatSessionBookSerializer(serializers.ModelSerializer):
     prompt = PromptSerializer(read_only=True)
     class Meta:
         model = ChatSession
-        fields = ['book', 'has_message']
+        fields = ['book', 'has_message','prompt']
 
     def get_has_message(self, obj):
         return obj.messages.exists()
