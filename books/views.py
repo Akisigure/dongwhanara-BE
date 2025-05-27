@@ -326,7 +326,7 @@ def book_report_comments(request,book_report_pk,book_pk):
 @permission_classes([IsAuthenticatedOrReadOnly])
 def comment_detail(request,comment_pk,book_report_pk,book_pk):
 
-    comment = get_object_or_404(BookReportComment,pk=comment_pk,book_report_id=book_report_pk,book_id=book_pk)
+    comment = get_object_or_404(BookReportComment,pk=comment_pk,book_report_id=book_report_pk,book_report__book_id=book_pk)
     
     if request.method == 'GET':
         serializer = BookReportCommentSerializer(comment)
