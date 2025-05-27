@@ -322,7 +322,8 @@ def comment_detail(request,comment_pk,book_report_pk,book_pk):
             comment.delete()
             return Response({'message':'삭제성공'},status=status.HTTP_204_NO_CONTENT)
         return Response({'message': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
-    
+
+@extend_schema(exclude=True)
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def create_mbti_recommend(request):
@@ -330,7 +331,15 @@ def create_mbti_recommend(request):
         save_mbti_recommend()
         return Response({'message':'MBTI 추천 데이터 저장 성공'})
             
-                    
+
+
+@extend_schema(
+    summary="추천 도서 리스트 조회",
+    description="좋아요 상위 10개 책 + 사용자 채팅 세션 + MBTI 기반 추천 도서(로그인 시)",
+    responses={
+        200: OpenApiResponse(description="추천 목록 조회 성공", response=BookSerializer(many=True)),
+    },
+)
 @api_view(['GET'])
 def recommend_list(request):
     user = request.user
@@ -363,6 +372,22 @@ def recommend_list(request):
     
     return Response(response_data)
 
+@extend_schema(
+    summary="도서 검색",
+    description="검색 키워드를 포함한 도서 제목을 기준으로 도서를 검색합니다.",
+    parameters=[
+        OpenApiParameter(
+            name="search",
+            description="검색할 도서 제목 키워드",
+            required=False,
+            type=str,
+            location=OpenApiParameter.QUERY
+        ),
+    ],
+    responses={
+        200: BookListSerializer(many=True),
+    },
+)
 @api_view(['GET'])
 def search_book(request):
     if request.method == 'GET':

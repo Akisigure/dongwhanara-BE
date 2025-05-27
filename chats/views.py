@@ -7,8 +7,15 @@ from .models import Prompt,ChatSession,ChatMessage
 from django.shortcuts import get_object_or_404
 from books.models import Book
 from rest_framework.permissions import IsAuthenticated
-from .serializers import SessionSerializer
+from .serializers import SessionSerializer,ChatSerializer
+from drf_spectacular.utils import extend_schema,OpenApiExample,inline_serializer,OpenApiParameter,OpenApiResponse
+from rest_framework import serializers
 
+@extend_schema(
+    summary="채팅 세션 시작",
+    description="도서에 대한 새로운 채팅 세션을 생성하거나 기존 세션을 반환.",
+    responses={200: SessionSerializer}
+)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def start_session(request,book_pk):
@@ -26,6 +33,32 @@ def start_session(request,book_pk):
     serializer = SessionSerializer(session)
     return Response(serializer.data,status=status.HTTP_200_OK)
 
+@extend_schema(
+    summary="챗봇 메시지 전송",
+    description="유저 메시지를 전송하면, 챗봇이 응답.",
+    request=ChatSerializer,
+    responses={
+        200: OpenApiResponse(
+            description="챗봇 응답",
+            response=inline_serializer(
+                name="AssistentResponse",
+                fields={
+                    "session_id": serializers.IntegerField(),
+                    "Assistent_response": serializers.CharField()
+                }
+            )
+        ),
+        400: OpenApiResponse(
+            description="입력 오류",
+            response=inline_serializer(
+                name="AssistentError",
+                fields={
+                    "error": serializers.CharField()
+                }
+            )
+        )
+    }
+)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def send_message(request,session_pk,book_pk):
