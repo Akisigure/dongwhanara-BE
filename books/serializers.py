@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Book,BookReport,BookReportComment
 from django.contrib.auth import get_user_model
 from chats.models import ChatSession
+from chats.serializers import PromptSerializer
 
 User = get_user_model()
 
@@ -77,7 +78,7 @@ class BookSerializer(serializers.ModelSerializer):
 class ChatSessionBookSerializer(serializers.ModelSerializer):
     book = BookSerializer()
     has_message = serializers.SerializerMethodField()
-
+    prompt = PromptSerializer(read_only=True)
     class Meta:
         model = ChatSession
         fields = ['book', 'has_message']

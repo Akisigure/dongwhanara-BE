@@ -360,6 +360,8 @@ def recommend_list(request):
 
         response_data['recommend_books'] = BookSerializer(books,many=True).data
         return Response(response_data)
+    
+    return Response(response_data)
 
 @api_view(['GET'])
 def search_book(request):
