@@ -3,35 +3,35 @@ from .models import Book,BookReport,BookReportComment
 from django.contrib.auth import get_user_model
 from chats.models import ChatSession
 
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields =('last_name','first_name','username')
+
 class BookListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
 
 class BookReportCommentSerializer(serializers.ModelSerializer):
-    class CustomUserSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = get_user_model()
-            fields = ('last_name', 'first_name', 'username')
-    user = CustomUserSerializer(read_only=True)
+
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = BookReportComment
         fields = '__all__'
         read_only_fields = ('book_report',)
 
 class BookReportsSerializer(serializers.ModelSerializer):
-    class CustomUserSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = get_user_model()
-            fields = ('last_name', 'first_name', 'username')
 
     class CustomBookDetailSerializer(serializers.ModelSerializer):
         class Meta:
             model = Book
             fields = '__all__'
 
-    user = CustomUserSerializer(read_only=True)
-    # book = CustomBookDetailSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     report_comments = BookReportCommentSerializer(many=True, read_only=True)
 
     class Meta:
@@ -39,11 +39,7 @@ class BookReportsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CreateBookReportSerializer(serializers.ModelSerializer):
-    class CustomUserSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = get_user_model()
-            fields = ('last_name', 'first_name', 'username')
-    user = CustomUserSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     report_comments = BookReportCommentSerializer(many=True,read_only=True)
     class Meta:
         model = BookReport
@@ -51,10 +47,11 @@ class CreateBookReportSerializer(serializers.ModelSerializer):
         read_only_fields = ('book',)
 
 class CreateReportCommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     class Meta:
         model = BookReportComment
         fields = '__all__'
-        read_only_fields = ('book_report','user',)
+        read_only_fields = ('book_report',)
 
 
 class BookDetailSerializer(serializers.ModelSerializer):
@@ -62,11 +59,7 @@ class BookDetailSerializer(serializers.ModelSerializer):
         class Meta:
             model = BookReport
             fields = '__all__'
-        class CustomUserSerializer(serializers.ModelSerializer):
-            class Meta:
-                model = get_user_model()
-                fields = ('last_name','first_name','username',)
-        user = CustomUserSerializer(read_only=True)
+        user = UserSerializer(read_only=True)
         
     book_reports = CustomBookReportSerializer(many=True,read_only=True)
     class Meta:
