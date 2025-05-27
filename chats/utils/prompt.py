@@ -56,10 +56,11 @@ def get_prompt(title, content):
     )
 
     persona: Persona = response.output_parsed
+    print('프롬프트는 생성 성공')
 
     name = persona.name
     data = persona.model_dump()
-
+    print(data)
     return name, data
 
 
@@ -80,15 +81,14 @@ def get_cover_img(name, prompt_description):
     keyword = completion.choices[0].message.content
     print('키워드 : ', keyword)
     response = client.images.generate(
-        model="dall-e-3",
+        model="dall-e-2",
         prompt=keyword,
-        size="1024x1024",
-        quality="standard",
+        size="256x256",
         n=1,
     )
     res = requests.get(response.data[0].url)
 
-    filename = f"{name}_{int(time.time())}.png"
+    filename = f"{name}_{time()}.png"
 
     file_path = os.path.join(settings.MEDIA_ROOT, filename)
 
@@ -100,8 +100,6 @@ def get_cover_img(name, prompt_description):
     return filename
 
 def create_prompt(book):
-    if Prompt.objects.filter(book=book).exists():
-        return None
     message = get_prompt(book.title,book.description)
     name = message[0]
     prompt_description = message[1]
