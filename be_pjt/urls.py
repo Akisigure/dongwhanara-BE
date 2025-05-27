@@ -5,16 +5,15 @@ from books.views import get_csrf_token,get_save_book_data
 from accounts.views import MyPageView
 from django.conf import settings
 from django.conf.urls.static import static
-
+from accounts.views import AdminOnlySpectacularAPIView,AdminOnlySpectacularRedocView,AdminOnlySpectacularSwaggerView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/',include('dj_rest_auth.urls')),
     path('accounts/registration/',include('dj_rest_auth.registration.urls')),
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'),name='redoc'),
-
+   path('api/schema/', AdminOnlySpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', AdminOnlySpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', AdminOnlySpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/v1/books/', include('books.urls')),
     path('api/v1/csrf/', get_csrf_token),
     path('accounts/my-page/',MyPageView.as_view(),name='my-page'),

@@ -13,4 +13,5 @@ urlpatterns = [
     path('mbti/recommend/',views.create_mbti_recommend),
     path('main/',views.recommend_list),
     path('search/',views.search_book),
+    path('has-chat/',views.get_chatting_sessions)
 ]
