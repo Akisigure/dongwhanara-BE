@@ -65,7 +65,7 @@ def get_document_simular():
         mbti_vector = model.encode([profile_text])
         similarities = cosine_similarity(mbti_vector, book_vectors)[0]
 
-        top_books = sorted(zip(books, similarities), key=lambda x: x[1], reverse=True)[:4]  # 상위 5권 추천
+        top_books = sorted(zip(books, similarities), key=lambda x: x[1], reverse=True)[:5]  # 상위 5권 추천
         mbti_recommendations[mbti] = [
             {"title": b['title'], "score": round(score, 3)} for b, score in top_books
         ]
