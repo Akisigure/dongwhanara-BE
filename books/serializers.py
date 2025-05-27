@@ -90,10 +90,11 @@ class ChatSessionsSerializer(serializers.ModelSerializer):
     chat_name = serializers.SerializerMethodField()
     book_title = serializers.SerializerMethodField()
     chat_image = serializers.SerializerMethodField()
+    book_id = serializers.SerializerMethodField()
 
     class Meta:
         model = ChatSession
-        fields = ('id', 'chat_name', 'book_title', 'chat_image', 'started_at')
+        fields = ('id', 'chat_name', 'book_title', 'chat_image', 'started_at','book_id')
 
     def get_chat_name(self, obj):
         return obj.book.prompt.name if hasattr(obj.book, 'prompt') and obj.book.prompt else None
@@ -105,3 +106,6 @@ class ChatSessionsSerializer(serializers.ModelSerializer):
         if hasattr(obj.book, 'prompt') and obj.book.prompt and obj.book.prompt.image:
             return obj.book.prompt.image.url
         return None
+    
+    def get_book_id(self,obj):
+        return obj.book.id
