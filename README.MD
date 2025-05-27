@@ -5,6 +5,14 @@
 
 > 여러가지 동화를 통해 동화 속 주인공과 대화가 가능한 챗봇 서비스를 메인으로 도서에 대해 독후감 작성 가능 및 MBTI 기반으로 동화 추천 기능을 제공.
 
+## 팀원 정보 및 업무 분담
+
+- FE : 이승훈
+  - front-end 담당
+
+- BE : 김대원
+  - back-end 담당
+--- 
 ## Install
 
 ### 필수 조건
@@ -88,6 +96,10 @@ def get_document_simular():
     return mbti_recommendations
 </details>
 
+### 주인공과 대화 가능한 챗봇
+- 도서의 제목과 설명을 기반으로 페르소나를 생성하고 페르소나를 기반으로 이미지 생성
+  - 페르소나 생성시에는 gpt-o4-mini를 사용하였고 이미지의 경우에는 dall-e-2 사용
+
 ## 기술 스택
 
 **백엔드 프레임워크**: Django 4.2.21, Django REST Framework 3.16.0
@@ -95,6 +107,8 @@ def get_document_simular():
 **데이터베이스**: SQLite3
 **API 문서화**: DRF Spectacular 0.28.0
 **인증 시스템**: JWT, Django AllAuth 65.8.1
+
+---
 
 ## 환경 변수 설정
 
@@ -104,6 +118,11 @@ def get_document_simular():
 OPENAI_API_KEY=OPENAI에서 발급받은 API KEY
 SERVICE_KEY=문화공공데이터광장에서 발급받은 API KEY
 ```
+
+## 생성형 AI를 활용한 부분
+- 문서 자동화를 위해 drf spectacular 활용하였으나 해결하기에 시간이 부족하여 생성형 AI 활용
+- 도서 추천 알고리즘의 종류와 각자 어떤면에서 장단점이 있는지 정보를 얻기 위해 활용
+- 챗봇과 대화 후 어떻게 대화내역을 저장해야 하는지 로직을 참고하기 위해 활용
 
 ## 프로젝트 디렉토리 구조
 
@@ -1048,6 +1067,15 @@ be_pjt/
 ## sequance Diagram
 ![sequance-diagram](image/동화나라%20user%20flow.drawio.png)
 
+--- 
+## 느낀점 
+- 1학기를 마무리 짓는 최종 PJT가 마무리 되었지만 시간관리를 좀 더 잘했더라면 배포까지 했을거라는 아쉬움이 남는다.
+- 해당 PJT를 마쳤다고 그만두는게 아닌 꾸준히 관리하고 refactoring을 하여 배포까지 나아가고 싶다는 생각을 나와 페어 둘 다 하게 된 PJT였다.
+- 처음에는 단순한 아이디어로 시작된 PJT였고 설계를 잘 하고 개발을 시작하였다고 생각하였으나 항상 자주 바뀌는 요구사항과 설계로 인해 소통능력이 엄청 중요하다고 알게 되었다.
+  - 특히 front-end와 back-end로 역할을 나누어 개발을 할 경우 서로가 어떤 data를 원하는지 잘 모르기에 개발 시작전에 이러한 부분부터 convention을 정하고 개발을 시작해야겠다는 경험을 얻게 되었다.
+- 이러면서 발생하는 front-end와의 갈등을 해결하기 위한 능력도 기르게 된 것 같아서 도움이 많이 된 PJT 였다고 생각한다.
+
+---
 ## Show your support
 
 Give a ⭐️ if this project helped you!
