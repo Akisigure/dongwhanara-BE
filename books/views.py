@@ -342,7 +342,6 @@ def create_mbti_recommend(request):
 )
 @api_view(['GET'])
 def recommend_list(request):
-    user = request.user
 
     response_data = {}
 
@@ -350,14 +349,15 @@ def recommend_list(request):
 
     like_top_books = Book.objects.annotate(
         like_count = Count('recommend_users')
-    ).order_by('-like_count')[:10]
+    ).order_by('-like_count')[:8]
     response_data['like_top_books'] = BookSerializer(like_top_books,many=True).data
 
     if request.user.is_authenticated:
+        user = request.user
 
         #현재 채팅중인 세션 목록 반환.
 
-        sessions = ChatSession.objects.filter(user=user).select_related('book')[:5]
+        sessions = ChatSession.objects.filter(user=user).select_related('book')[:3]
         response_data['chat_sessions'] = ChatSessionBookSerializer(sessions,many=True).data
 
         # 유사도 알고리즘으로 저장한 값에서 MBTI에 일치하는 값 내림차순

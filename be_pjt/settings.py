@@ -28,8 +28,11 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    "allauth.socialaccount.providers.google",
+    "dj_rest_auth",
     'dj_rest_auth.registration',
     'rest_framework_simplejwt.token_blacklist', 
+    'django.contrib.sites',
 ]
 
 SITE_ID = 1
@@ -71,6 +74,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 REST_AUTH = {
     'USE_JWT': True,
@@ -183,3 +187,17 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        # 필요시 추가 설정
+    }
+}
