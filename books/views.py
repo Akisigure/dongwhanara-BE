@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from .serializers import BookListSerializer,BookDetailSerializer,BookReportsSerializer,BookReportCommentSerializer,CreateBookReportSerializer,CreateReportCommentSerializer
-from .serializers import BookSerializer,ChatSessionBookSerializer
+from .serializers import BookSerializer,ChatSessionBookSerializer,ChatSessionsSerializer
 from rest_framework import status
 from .models import Book,BookReport,BookReportComment,MbtiRecommend
 from .utils.utils import get_data,save_mbti_recommend
@@ -118,13 +118,26 @@ def recommend_book(request,book_pk):
 
 @extend_schema(
     methods=['GET', 'POST'],
-    request={
-        'POST': BookReportsSerializer,
-        'GET': None,
-    },
+    request=CreateBookReportSerializer,  # 실제 POST 요청에서 사용하는 serializer
     responses={
-        'GET': BookReportsSerializer(many=True),
-        'POST': BookReportsSerializer,
+        200: OpenApiResponse(
+            response=inline_serializer(
+                name='PaginatedBookReports',
+                fields={
+                    'count': serializers.IntegerField(),
+                    'next': serializers.CharField(allow_null=True),
+                    'previous': serializers.CharField(allow_null=True),
+                    'current_page': serializers.IntegerField(),
+                    'next_page': serializers.IntegerField(allow_null=True),
+                    'previous_page': serializers.IntegerField(allow_null=True),
+                    'results': BookReportsSerializer(many=True),
+                }
+            ),
+            description='독후감 목록 (페이지네이션 포함)'
+        ),
+        201: BookReportsSerializer,  # POST 성공 응답
+        400: OpenApiResponse(description='잘못된 요청'),
+        403: OpenApiResponse(description='권한 없음'),
     },
     summary='독후감 리스트, 독후감 저장 API',
     operation_id='book_reports_list_create',
@@ -138,7 +151,7 @@ def recommend_book(request,book_pk):
     parameters=[
         OpenApiParameter(
             name='page',
-            type=int,
+            type=OpenApiTypes.INT,
             location=OpenApiParameter.QUERY,
             description='현재 페이지'
         ),
@@ -165,18 +178,17 @@ def book_reports(request,book_pk):
 
 @extend_schema(
     methods=['GET', 'PUT', 'DELETE'],
-    request={
-        'PUT': BookReportsSerializer,
-        'GET': None,
-        'DELETE': None,
-    },
+    request=BookReportsSerializer,  # PUT만 사용됨, GET/DELETE는 body 없음
     responses={
-        'GET': BookReportsSerializer,
-        'PUT': BookReportsSerializer,
-        'DELETE': inline_serializer(
+        200: BookReportsSerializer,  # GET, PUT 성공 시
+        204: inline_serializer(      # DELETE 성공 시
             name='ReportDeleteResponse',
             fields={'message': serializers.CharField()}
-        )
+        ),
+        403: inline_serializer(      # 권한 없음
+            name='ForbiddenResponse',
+            fields={'message': serializers.CharField()}
+        ),
     },
     summary='독후감 상세 조회, 수정, 삭제 API',
     operation_id='report_detail_get_put_delete',
@@ -235,16 +247,26 @@ def like_book_report(request,book_report_pk,book_pk):
 
 @extend_schema(
     methods=['GET', 'POST'],
-    request={
-        'POST': BookReportCommentSerializer,
-        'GET': None,
-    },
+    request=CreateReportCommentSerializer,  # 실제 POST에서 사용하는 serializer
     responses={
-        'GET': OpenApiResponse(
-            response=BookReportCommentSerializer(many=True),
+        200: OpenApiResponse(
+            response=inline_serializer(
+                name='PaginatedBookReportComments',
+                fields={
+                    'count': serializers.IntegerField(),
+                    'next': serializers.CharField(allow_null=True),
+                    'previous': serializers.CharField(allow_null=True),
+                    'current_page': serializers.IntegerField(),
+                    'next_page': serializers.IntegerField(allow_null=True),
+                    'previous_page': serializers.IntegerField(allow_null=True),
+                    'results': BookReportCommentSerializer(many=True),
+                }
+            ),
             description='댓글 목록 (페이지네이션 포함)'
         ),
-        'POST': BookReportCommentSerializer,
+        201: BookReportCommentSerializer,  # POST 성공 응답
+        400: OpenApiResponse(description='유효하지 않은 요청'),
+        403: OpenApiResponse(description='권한 없음'),
     },
     summary='독후감 댓글 목록 조회 및 작성 API',
     description="""
@@ -283,18 +305,19 @@ def book_report_comments(request,book_report_pk,book_pk):
         
 @extend_schema(
     methods=['GET', 'PUT', 'DELETE'],
-    request={
-        'PUT': BookReportCommentSerializer,
-        'GET': None,
-        'DELETE': None,
-    },
+    request=BookReportCommentSerializer,  # PUT만 사용됨, 나머지는 body 없음
     responses={
-        'GET': BookReportCommentSerializer,
-        'PUT': BookReportCommentSerializer,
-        'DELETE': inline_serializer(
-            name='CommentDeleteSuccess',
-            fields={'message': serializers.CharField()}
+        200: BookReportCommentSerializer,  # GET 및 PUT 성공 시
+        204: OpenApiResponse(
+            response=inline_serializer(
+                name='CommentDeleteSuccess',
+                fields={'message': serializers.CharField()}
+            ),
+            description='댓글 삭제 성공'
         ),
+        400: OpenApiResponse(description='잘못된 요청'),
+        403: OpenApiResponse(description='권한 없음'),
+        404: OpenApiResponse(description='댓글 또는 독후감이 존재하지 않음'),
     },
     summary='독후감 댓글 상세 조회, 수정, 삭제 API',
     operation_id='comment_detail_get_put_delete',
@@ -397,3 +420,16 @@ def search_book(request):
         )
         serializer = BookListSerializer(books,many=True)
         return Response(serializer.data)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_chatting_sessions(request):
+    user = request.user
+    sessions = (
+        ChatSession.objects
+        .filter(user=user)
+        .select_related('book', 'book__prompt')
+        .order_by('-started_at')[:3]
+    )
+    serializer = ChatSessionsSerializer(sessions, many=True)
+    return Response(serializer.data)
