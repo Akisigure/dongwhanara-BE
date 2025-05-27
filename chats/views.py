@@ -7,31 +7,39 @@ from .models import Prompt,ChatSession,ChatMessage
 from django.shortcuts import get_object_or_404
 from books.models import Book
 from rest_framework.permissions import IsAuthenticated
-from .serializers import SessionSerializer,ChatSerializer
+from .serializers import SessionSerializer,ChatSerializer,CustomSessionSerializer
 from drf_spectacular.utils import extend_schema,OpenApiExample,inline_serializer,OpenApiParameter,OpenApiResponse
 from rest_framework import serializers
 
 @extend_schema(
     summary="채팅 세션 시작",
     description="도서에 대한 새로운 채팅 세션을 생성하거나 기존 세션을 반환.",
-    responses={200: SessionSerializer}
+    responses={200: CustomSessionSerializer}
 )
-@api_view(['POST'])
+@api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 def start_session(request,book_pk):
-    book = get_object_or_404(Book,pk = book_pk)
-    prompt = Prompt.objects.filter(book=book).first()
-    if not prompt:
-        prompt = create_prompt(book)    
-    session = ChatSession.objects.filter(user = request.user, book=book).first()
-    if not session:
-        session = ChatSession()
-        session.user = request.user
-        session.book = book
-        session.save()
     
-    serializer = SessionSerializer(session)
-    return Response(serializer.data,status=status.HTTP_200_OK)
+    book = get_object_or_404(Book,pk = book_pk)
+
+    if request.method == 'GET':
+        session = ChatSession.objects.filter(user = request.user, book=book).first()
+        serializer = CustomSessionSerializer(session)
+        return Response(serializer.data,status=status.HTTP_200_OK) 
+    
+    if request.method == 'POST':
+        prompt = Prompt.objects.filter(book=book).first()
+        if not prompt:
+            prompt = create_prompt(book)    
+        session = ChatSession.objects.filter(user = request.user, book=book).first()
+        if not session:
+            session = ChatSession()
+            session.user = request.user
+            session.book = book
+            session.save()
+        
+        serializer = CustomSessionSerializer(session)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 @extend_schema(
     summary="챗봇 메시지 전송",
