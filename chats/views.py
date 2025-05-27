@@ -7,7 +7,7 @@ from .models import Prompt,ChatSession,ChatMessage
 from django.shortcuts import get_object_or_404
 from books.models import Book
 from rest_framework.permissions import IsAuthenticated
-from .serializers import SessionSerializer,ChatSerializer,CustomSessionSerializer
+from .serializers import SessionSerializer,ChatSerializer,CustomSessionSerializer,ChatMessageSerializer
 from drf_spectacular.utils import extend_schema,OpenApiExample,inline_serializer,OpenApiParameter,OpenApiResponse
 from rest_framework import serializers
 
@@ -104,10 +104,8 @@ def send_message(request,session_pk,book_pk):
     gpt_chat.message = response_text
     gpt_chat.save()
 
-    return Response({
-        'session_id': session.pk,
-        'bot_response': response_text,
-    }, status=status.HTTP_200_OK)
+    serializer = ChatMessageSerializer([user_chat, gpt_chat], many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 

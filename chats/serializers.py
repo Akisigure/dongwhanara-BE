@@ -39,3 +39,8 @@ class CustomSessionSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(prompt.image.url)
             return prompt.image.url
         return None
+
+class ChatMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = ('id', 'message', 'sender_role', 'created_at', 'session',)
