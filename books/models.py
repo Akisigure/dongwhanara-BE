@@ -10,7 +10,7 @@ class Book(models.Model):
     view_count = models.IntegerField()
     recommend_users = models.ManyToManyField(
         get_user_model(),
-        related_name='recommend_reports',
+        related_name='recommend_books',
         blank=True,
     )
 

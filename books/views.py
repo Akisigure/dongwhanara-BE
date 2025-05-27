@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from .serializers import BookListSerializer,BookDetailSerializer,BookReportsSerializer,BookReportCommentSerializer,CreateBookReportSerializer,CreateReportCommentSerializer
+from .serializers import BookSerializer,ChatSessionBookSerializer
 from rest_framework import status
 from .models import Book,BookReport,BookReportComment,MbtiRecommend
 from .utils.utils import get_data,save_mbti_recommend
@@ -14,7 +15,8 @@ from rest_framework.permissions import IsAdminUser,IsAuthenticatedOrReadOnly,IsA
 from drf_spectacular.utils import inline_serializer
 from rest_framework import serializers
 from drf_spectacular.types import OpenApiTypes
-from django.db.models import Q
+from django.db.models import Q,Count
+from chats.models import ChatSession
 
 # 1회만 호출 Admin만 가능
 @extend_schema(exclude=True)
@@ -330,18 +332,34 @@ def create_mbti_recommend(request):
             
                     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def recommend_list(request):
     user = request.user
-    mbti = user.mbti
 
-    recommends = MbtiRecommend.objects.filter(mbti=mbti).select_related('book').order_by('-score')
-    books = []
-    for i in recommends:
-        books.append(i.book)
+    response_data = {}
 
-    serializer = BookListSerializer(books, many=True)
-    return Response(serializer.data)
+    # 좋아요 갯수 가장 많은 순 10개 직렬화 후 응답data에 담음.
+
+    like_top_books = Book.objects.annotate(
+        like_count = Count('recommend_users')
+    ).order_by('-like_count')[:10]
+    response_data['like_top_books'] = BookSerializer(like_top_books,many=True).data
+
+    if request.user.is_authenticated:
+
+        #현재 채팅중인 세션 목록 반환.
+
+        sessions = ChatSession.objects.filter(user=user).select_related('book')[:5]
+        response_data['chat_sessions'] = ChatSessionBookSerializer(sessions,many=True).data
+
+        # 유사도 알고리즘으로 저장한 값에서 MBTI에 일치하는 값 내림차순
+        mbti = user.mbti
+        recommends = MbtiRecommend.objects.filter(mbti=mbti).select_related('book').order_by('-score')
+        books = []
+        for i in recommends:
+            books.append(i.book)
+
+        response_data['recommend_books'] = BookSerializer(books,many=True).data
+        return Response(response_data)
 
 @api_view(['GET'])
 def search_book(request):
